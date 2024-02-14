@@ -1,5 +1,6 @@
 package RenewableResourceMonitor.SolarEnergyMonitor;
 
+import RenewableResourceMonitor.SolarEnergyMonitor.GeologicalFeatures.OverpassApi;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

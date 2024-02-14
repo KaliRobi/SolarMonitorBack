@@ -1,32 +1,37 @@
 package RenewableResourceMonitor.SolarEnergyMonitor.GeologicalFeatures;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ExecutionException;
 import java.net.http.HttpResponse.BodyHandlers;
 abstract class AbstractAPIDataRetriever {
 
-public void getData(String urlString){
+public HttpResponse<String> getData(String urlString){
 
     try {
-        URI targetUri = new URI(urlString);
+
+        URI targetUri = URI.create(URLEncoder.encode(urlString, StandardCharsets.UTF_8.toString()));
+        System.out.println(targetUri);
         HttpClient httpClient  = HttpClient.newHttpClient();
+
         HttpRequest newRequest = HttpRequest.newBuilder(targetUri).build();
-        HttpResponse<String> response = httpClient.sendAsync(newRequest, BodyHandlers.ofString()).get();
+        return httpClient.sendAsync(newRequest, BodyHandlers.ofString()).get();
 
-        System.out.println(response.body());
-
-    } catch (URISyntaxException | InterruptedException | ExecutionException e) {
+    } catch (InterruptedException | ExecutionException | UnsupportedEncodingException e) {
         throw new RuntimeException(e);
     }
 
+
 }
 
-    public void postData(String urlString, String payload){
+    public HttpResponse<String> postData(String urlString, String payload){
 
         try {
             URI targetUri = new URI(urlString);
@@ -37,10 +42,8 @@ public void getData(String urlString){
                     .POST(HttpRequest.BodyPublishers.ofString(payload))
                     .build();
 
-            HttpResponse<String> response = httpClient.send(newRequest, BodyHandlers.ofString());
+            return httpClient.send(newRequest, BodyHandlers.ofString());
 
-            System.out.println(response.statusCode());
-            System.out.println(response.body());
         } catch (URISyntaxException | InterruptedException | IOException e) {
             throw new RuntimeException(e);
         }
