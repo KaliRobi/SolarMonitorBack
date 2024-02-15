@@ -13,18 +13,15 @@ import java.util.concurrent.ExecutionException;
 import java.net.http.HttpResponse.BodyHandlers;
 abstract class AbstractAPIDataRetriever {
 
-public HttpResponse<String> getData(String urlString){
+public HttpResponse<String> getData(URI targetUri){
 
     try {
-
-        URI targetUri = URI.create(URLEncoder.encode(urlString, StandardCharsets.UTF_8.toString()));
-        System.out.println(targetUri);
         HttpClient httpClient  = HttpClient.newHttpClient();
 
         HttpRequest newRequest = HttpRequest.newBuilder(targetUri).build();
         return httpClient.sendAsync(newRequest, BodyHandlers.ofString()).get();
 
-    } catch (InterruptedException | ExecutionException | UnsupportedEncodingException e) {
+    } catch (InterruptedException | ExecutionException  e) {
         throw new RuntimeException(e);
     }
 

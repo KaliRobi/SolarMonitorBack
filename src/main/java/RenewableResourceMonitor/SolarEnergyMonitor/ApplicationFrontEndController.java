@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.URI;
 import java.net.http.HttpResponse;
 
 @RestController
@@ -20,7 +21,7 @@ public class ApplicationFrontEndController {
     @GetMapping(path = "/")
     public ResponseEntity<String> testController(){
 
-       String uri =  overpassApi.prepareOverPassQuery("Lääne maakond");
+       URI uri =  overpassApi.overPassUrlBuilder("Lääne maakond");
 
        HttpResponse<String> returnData = overpassApi.getData(uri);
 

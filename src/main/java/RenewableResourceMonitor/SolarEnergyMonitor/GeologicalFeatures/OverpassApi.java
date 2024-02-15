@@ -2,7 +2,11 @@ package RenewableResourceMonitor.SolarEnergyMonitor.GeologicalFeatures;
 
 import org.springframework.stereotype.Service;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URLEncoder;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 
 @Service
 public class OverpassApi extends AbstractAPIDataRetriever{
@@ -13,17 +17,28 @@ public class OverpassApi extends AbstractAPIDataRetriever{
     }
 
     @Override
-    public HttpResponse<String> getData(String urlString) {
-        return super.getData(urlString);
+    public HttpResponse<String> getData(URI targetUti) {
+        return super.getData(targetUti);
     }
 
-    //this will be url builder instead
-    public String prepareOverPassQuery(String location){
+    public URI overPassUrlBuilder(String location)  {
 
-        StringBuilder stringBuilder = new StringBuilder("overpass-api.de/api/interpreter?data=[out:json];area[name=\"");
+        StringBuilder stringBuilder = new StringBuilder("[out:json];area[name=\"");
         stringBuilder.append(location).append("\"]->.searchArea;node(area.searchArea)[place];out;");
 
-        return stringBuilder.toString();
+        StringBuilder uriBase = new StringBuilder("https://overpass-api.de/api/interpreter?data=");
+
+        String urlString = null;
+        try {
+            System.out.println(stringBuilder.toString());
+            urlString = URLEncoder.encode(stringBuilder.toString(), StandardCharsets.UTF_8.toString());
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+
+        System.out.println(URI.create(uriBase.append(urlString).toString()));
+
+        return URI.create(uriBase.append(urlString).toString());
 
     }
 
