@@ -3,13 +3,15 @@ package RenewableResourceMonitor.SolarEnergyMonitor.GeologicalFeatures;
 public class Location {
 
 
+    private final long id;
     private final String name;
     private final double latitude;
     private final double longitude;
     private final String County;
     private final String Country;
 
-    public Location(String name, double latitude, double longitude, String county, String country) {
+    public Location(long id, String name, double latitude, double longitude, String county, String country) {
+        this.id = id;
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -17,6 +19,9 @@ public class Location {
         Country = country;
     }
 
+    public long getId() {
+        return id;
+    }
 
     public String getName() {
         return name;
@@ -41,7 +46,8 @@ public class Location {
     @Override
     public String toString() {
         return "Location{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
                 ", County='" + County + '\'' +

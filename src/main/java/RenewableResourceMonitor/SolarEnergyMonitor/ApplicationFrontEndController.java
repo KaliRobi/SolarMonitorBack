@@ -1,31 +1,24 @@
 package RenewableResourceMonitor.SolarEnergyMonitor;
 
+import RenewableResourceMonitor.SolarEnergyMonitor.GeologicalFeatures.OverPassApiProcessor;
 import RenewableResourceMonitor.SolarEnergyMonitor.GeologicalFeatures.OverpassApi;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.net.URI;
-import java.net.http.HttpResponse;
-
 @RestController
 public class ApplicationFrontEndController {
 
-    private final OverpassApi overpassApi;
+    private final OverPassApiProcessor overPassApiProcessor;
 
-    public ApplicationFrontEndController(OverpassApi overpassApi) {
-        this.overpassApi = overpassApi;
+    public ApplicationFrontEndController(OverPassApiProcessor overPassApiProcessor) {
+        this.overPassApiProcessor = overPassApiProcessor;
     }
 
     @GetMapping(path = "/")
     public ResponseEntity<String> testController(){
-
-       URI uri =  overpassApi.overPassUrlBuilder("Lääne maakond");
-
-       HttpResponse<String> returnData = overpassApi.getData(uri);
-
-       return new ResponseEntity<>(returnData.body(), HttpStatus.OK);
+    return new ResponseEntity<>(overPassApiProcessor.publishLocations().toString(), HttpStatus.OK);
     }
 
 

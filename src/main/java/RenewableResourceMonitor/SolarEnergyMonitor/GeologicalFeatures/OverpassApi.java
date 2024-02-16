@@ -36,8 +36,6 @@ public class OverpassApi extends AbstractAPIDataRetriever{
             throw new RuntimeException(e);
         }
 
-        System.out.println(URI.create(uriBase.append(urlString).toString()));
-
         return URI.create(uriBase.append(urlString).toString());
 
     }
