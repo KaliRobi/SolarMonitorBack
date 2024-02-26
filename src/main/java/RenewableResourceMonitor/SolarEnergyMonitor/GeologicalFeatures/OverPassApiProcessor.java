@@ -35,23 +35,15 @@ public class OverPassApiProcessor {
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         mapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);
 
-        List<Location> locations = new ArrayList<>();
-
         try {
-            locations = mapper.readValue(jsonString.body(), new TypeReference<>() {});
+            return  mapper.readValue(jsonString.body(), OverPassApiResponseWrapper.class).getElements();
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
 
-        return locations;
     }
 
-
-
-
     public List<Location> publishLocations(){
-
-
        return mapJsonToLocation();
     }
 
