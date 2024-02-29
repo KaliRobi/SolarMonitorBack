@@ -43,8 +43,19 @@ public class OverPassApiProcessor {
 
     }
 
-    public List<Location> publishLocations(){
-       return mapJsonToLocation();
+    public List<LocationNamesWithCoordinates> publishLocations(){
+        List<LocationNamesWithCoordinates> namesWithCoordinates = new ArrayList<>();
+
+        List<Location> locations = mapJsonToLocation();
+
+        for(Location location : locations ){
+
+            namesWithCoordinates.add(
+                    new LocationNamesWithCoordinates(location.getId(), location.getLat(), location.getLon(), location.getTags().get("name"))
+            );
+        }
+
+        return namesWithCoordinates;
     }
 
 
